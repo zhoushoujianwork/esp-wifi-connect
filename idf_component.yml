@@ -6,6 +6,6 @@ files:
   - .git
   - dist
 license: MIT
-repository: git://github.com/78/esp-wifi-connect.git
-url: https://github.com/78/esp-wifi-connect.git
+repository: git://github.com/zhoushoujianwork/esp-wifi-connect.git
+url: https://github.com/zhoushoujianwork/esp-wifi-connect.git
 version: 2.3.2
