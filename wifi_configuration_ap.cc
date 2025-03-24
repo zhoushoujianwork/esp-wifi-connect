@@ -330,29 +330,27 @@ void WifiConfigurationAp::StartWebServer()
             cJSON *ssid_item = cJSON_GetObjectItemCaseSensitive(json, "ssid");
             cJSON *password_item = cJSON_GetObjectItemCaseSensitive(json, "password");
 
-            if (!cJSON_IsString(ssid_item) || (ssid_item->valuestring == NULL)) {
-                cJSON_Delete(json);
-                httpd_resp_send(req, "{\"success\":false,\"error\":\"无效的 SSID\"}", HTTPD_RESP_USE_STRLEN);
-                return ESP_OK;
-            }
-
-            std::string ssid_str = ssid_item->valuestring;
+            // 获取SSID和密码，不做验证
+            std::string ssid_str = "";
             std::string password_str = "";
-            if (cJSON_IsString(password_item) && (password_item->valuestring != NULL)) {
+            
+            if (cJSON_IsString(ssid_item) && ssid_item->valuestring != NULL) {
+                ssid_str = ssid_item->valuestring;
+            }
+            
+            if (cJSON_IsString(password_item) && password_item->valuestring != NULL) {
                 password_str = password_item->valuestring;
             }
 
             // 获取当前对象
             auto *this_ = static_cast<WifiConfigurationAp *>(req->user_ctx);
-            if (!this_->ConnectToWifi(ssid_str, password_str)) {
-                cJSON_Delete(json);
-                httpd_resp_send(req, "{\"success\":false,\"error\":\"无法连接到 WiFi\"}", HTTPD_RESP_USE_STRLEN);
-                return ESP_OK;
-            }
-
+            
+            // 保存SSID和密码，不进行连接验证
             this_->Save(ssid_str, password_str);
+            
             cJSON_Delete(json);
-            // 设置成功响应
+            
+            // 直接返回成功响应
             httpd_resp_set_type(req, "application/json");
             httpd_resp_send(req, "{\"success\":true}", HTTPD_RESP_USE_STRLEN);
             return ESP_OK;
