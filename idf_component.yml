@@ -9,3 +9,6 @@ license: MIT
 repository: git://github.com/zhoushoujianwork/esp-wifi-connect.git
 url: https://github.com/zhoushoujianwork/esp-wifi-connect.git
 version: 2.3.2
+name: esp-wifi-connect
+maintainers:
+  - "zhoushoujian <zhoushoujianwork@163.com>"
